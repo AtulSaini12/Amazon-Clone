@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { signIn, signOut, useSession } from "next-auth/client";
+
 import {
   MenuIcon,
   SearchIcon,
@@ -6,6 +8,8 @@ import {
 } from "@heroicons/react/outline";
 
 const Header = () => {
+  const [session] = useSession();
+
   return (
     <header>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
@@ -38,8 +42,8 @@ const Header = () => {
              mx-6 whitespace-nowrap
         "
         >
-          <div className="link">
-            <p>Hello Atul Saini</p>
+          <div className="link" onClick={session ? signOut : signIn}>
+            <p>{session ? `Hello ${session.user?.name}` : "Sign In"}</p>
             <p className="font-extrabold md:text-sm">Accounts & Lists</p>
           </div>
           <div className="link">
