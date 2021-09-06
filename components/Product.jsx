@@ -31,6 +31,7 @@ export default function Product({
       description,
       category,
       image,
+      rating,
       hasPrime,
     };
 
@@ -40,7 +41,7 @@ export default function Product({
   return (
     <div
       className="relative flex flex-col m-5
-       bg-white z-30 p-10 
+       bg-white  p-10 
     "
     >
       <p
@@ -62,7 +63,7 @@ export default function Product({
       <p className="text-xs my-2 line-clamp-2">{description}</p>
 
       <div className="mb-5 ">
-        <Currency quantity={price * 30} currency="INR" />
+        <Currency quantity={price} currency="INR" />
       </div>
       {hasPrime && (
         <div className="flex items-center space-x-2 -mt-5">
