@@ -68,7 +68,7 @@ export default function CheckoutProduct({
           Add to Cart
         </button>
         <button onClick={removeItemFromCart} className="button">
-          Remove from basket
+          Remove from Cart
         </button>
       </div>
     </div>
