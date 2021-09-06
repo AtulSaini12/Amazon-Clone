@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/solid";
 import Currency from "react-currency-formatter";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../src/slices/cartSlice";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -14,11 +16,26 @@ export default function Product({
   category,
   image,
 }) {
-  const [rating, setRating] = useState(
+  const dispatch = useDispatch();
+  const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
 
-  const [hasPrime, setPrime] = useState(Math.random() < 0.5);
+  const [hasPrime] = useState(Math.random() < 0.5);
+
+  const addItemToCart = () => {
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      hasPrime,
+    };
+
+    dispatch(addToCart(product));
+  };
 
   return (
     <div
@@ -39,13 +56,13 @@ export default function Product({
         {Array(rating)
           .fill()
           .map((_, i) => (
-            <StarIcon className="h-5 text-yellow-500" />
+            <StarIcon key={i} className="h-5 text-yellow-500" />
           ))}
       </div>
       <p className="text-xs my-2 line-clamp-2">{description}</p>
 
       <div className="mb-5 ">
-        <Currency quantity={price} currency="INR" />
+        <Currency quantity={price * 30} currency="INR" />
       </div>
       {hasPrime && (
         <div className="flex items-center space-x-2 -mt-5">
@@ -58,7 +75,9 @@ export default function Product({
         </div>
       )}
 
-      <button className="mt-auto button">Add to Cart</button>
+      <button className="mt-auto button" onClick={addItemToCart}>
+        Add to Cart
+      </button>
     </div>
   );
 }
