@@ -34,6 +34,7 @@ export default function Checkout() {
         items: cartItems,
         amountShipping: 49,
         timeStamp: timestamp,
+        orderDate: Date().toString(),
       });
 
     const result = await stripe.redirectToCheckout({
@@ -88,7 +89,7 @@ export default function Checkout() {
               <h2 className="whitespace-nowrap">
                 Subtotal ({cartItems.length} items):
                 <span className="font-bold">
-                  <Currency quantity={totalPrice} currency="INR" />
+                  <Currency quantity={totalPrice} currency="USD" />
                 </span>
               </h2>
               <button

@@ -5,7 +5,7 @@ export default async (req, res) => {
 
   const newItemFormat = items.map((item) => ({
     price_data: {
-      currency: "inr",
+      currency: "usd",
       product_data: {
         name: item.title,
         images: [item.image],
@@ -20,7 +20,7 @@ export default async (req, res) => {
     payment_method_types: ["card"],
     line_items: newItemFormat,
     shipping_address_collection: {
-      allowed_countries: ["IN"],
+      allowed_countries: ["US"],
     },
     shipping_rates: ["shr_1JWfkUSFzanhMoUwsGGuLbnz"],
     mode: "payment",

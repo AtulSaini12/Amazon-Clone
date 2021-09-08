@@ -1,5 +1,4 @@
-import moment from "moment";
-import { getSession, useSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Header from "../components/Header";
 import { db } from "../firebase";
 import Order from "../components/Order";
@@ -9,11 +8,11 @@ import { useState } from "react";
 export default function orders({ session }) {
   const [orders, setOrders] = useState(null);
 
-  const q1 = query(
+  const collecRef = query(
     collection(db, `users/${session.user.email}/orders`),
     orderBy("timeStamp", "desc")
   );
-  getDocs(q1).then((res) => setOrders(res));
+  getDocs(collecRef).then((res) => setOrders(res));
 
   return (
     <div>
@@ -38,6 +37,7 @@ export default function orders({ session }) {
                 amountShipping={order.data().amountShipping}
                 items={order.data().items}
                 timestamp={order.data().timeStamp}
+                orderDate={order.data().orderDate}
                 key={order.id}
               />
             ))}

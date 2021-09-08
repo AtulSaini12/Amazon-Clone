@@ -5,8 +5,6 @@ import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../src/slices/cartSlice";
 import Notification from "./Notification";
-import { db } from "../firebase";
-import { useSession } from "next-auth/client";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -20,7 +18,6 @@ export default function Product({
   image,
 }) {
   const dispatch = useDispatch();
-  const [session] = useSession();
   const [showNotification, setShowNotification] = useState(false);
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
@@ -69,7 +66,7 @@ export default function Product({
       <p className="text-xs my-2 line-clamp-2">{description}</p>
 
       <div className="mb-5 ">
-        <Currency quantity={price} currency="INR" />
+        <Currency quantity={price} currency="USD" />
       </div>
       {hasPrime && (
         <div className="flex items-center space-x-2 -mt-5">
