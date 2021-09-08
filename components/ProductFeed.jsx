@@ -9,7 +9,7 @@ export default function ProductFeed({ products }) {
     >
       {products
         .slice(0, 4)
-        .map(({ id, title, price, description, category, image, hasPrime }) => (
+        .map(({ id, title, price, description, category, image }) => (
           <Product
             id={id}
             title={title}

@@ -4,6 +4,7 @@ import { StarIcon } from "@heroicons/react/solid";
 import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../src/slices/cartSlice";
+import Notification from "./Notification";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -17,6 +18,7 @@ export default function Product({
   image,
 }) {
   const dispatch = useDispatch();
+  const [showNotification, setShowNotification] = useState(false);
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
@@ -36,17 +38,18 @@ export default function Product({
     };
 
     dispatch(addToCart(product));
+    setShowNotification(true);
   };
 
   return (
     <div
       className="relative flex flex-col m-5
-       bg-white  p-10 
+       bg-white  p-10 z-100
     "
     >
       <p
         className="absolute top-2 right-2 text-xs italic 
-       text-gray-200"
+       text-gray-300"
       >
         {category}
       </p>
@@ -79,6 +82,8 @@ export default function Product({
       <button className="mt-auto button" onClick={addItemToCart}>
         Add to Cart
       </button>
+
+      {showNotification && <Notification />}
     </div>
   );
 }
