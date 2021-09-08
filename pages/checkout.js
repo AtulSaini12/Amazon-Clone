@@ -7,6 +7,7 @@ import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/client";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { db, timestamp } from "../firebase";
 
 const stripePromise = loadStripe(process.env.stripe_public_key);
 
@@ -22,6 +23,18 @@ export default function Checkout() {
       items: cartItems,
       email: session.user.email,
     });
+
+    await db
+      .collection("users")
+      .doc(session.user.email)
+      .collection("orders")
+      .add({
+        sessionId: Date().toString(),
+        totalAmount: totalPrice,
+        items: cartItems,
+        amountShipping: 49,
+        timeStamp: timestamp,
+      });
 
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,

@@ -7,7 +7,6 @@ export default function Order({
   amountShipping,
   items,
   timestamp,
-  images,
 }) {
   return (
     <div className="relative border rounded-md">
@@ -35,11 +34,12 @@ export default function Order({
 
       <div className="p-5 sm:p-10">
         <div className="flex space-x-6 overflow-x-auto">
-          {images.map((image) => (
+          {items.map((item, i) => (
             <img
-              sec={image}
+              src={item.image}
               alt="items"
               className="h-20 object-contain sm:h-32"
+              key={i}
             />
           ))}
         </div>

@@ -1,14 +1,20 @@
-import { data } from "autoprefixer";
 import moment from "moment";
 import { getSession, useSession } from "next-auth/client";
 import Header from "../components/Header";
 import { db } from "../firebase";
 import Order from "../components/Order";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { useState } from "react";
 
-export default function orders({ orders }) {
-  const [session] = useSession();
+export default function orders({ session }) {
+  const [orders, setOrders] = useState(null);
 
-  console.log(orders);
+  const q1 = query(
+    collection(db, `users/${session.user.email}/orders`),
+    orderBy("timeStamp", "desc")
+  );
+  getDocs(q1).then((res) => setOrders(res));
+
   return (
     <div>
       <Header />
@@ -18,25 +24,23 @@ export default function orders({ orders }) {
         </h1>
 
         {session ? (
-          <h2>{orders.length} Orders</h2>
+          <h2>{orders?.docs?.length} Orders</h2>
         ) : (
           <h2>Sign in to see your orders.</h2>
         )}
 
         <div className="mt-5 space-y-4">
-          {orders?.map(
-            ({ id, amount, amountShipping, items, timestamp, images }) => (
+          {orders &&
+            orders.docs?.map((order) => (
               <Order
-                id={id}
-                amount={amount}
-                amountShipping={amountShipping}
-                items={items}
-                timestamp={timestamp}
-                images={images}
-                key={id}
+                id={order.id}
+                amount={order.data().totalAmount}
+                amountShipping={order.data().amountShipping}
+                items={order.data().items}
+                timestamp={order.data().timeStamp}
+                key={order.id}
               />
-            )
-          )}
+            ))}
         </div>
       </main>
     </div>
@@ -47,38 +51,13 @@ export async function getServerSideProps(context) {
   const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
   const session = await getSession(context);
-
   if (!session) {
     return {
       props: {},
     };
   }
 
-  const stripeOrders = await db
-    .collection("users")
-    .doc(session.user.email)
-    .collection("orders")
-    .orderBy("timestamp", "desc")
-    .get();
-
-  const orders = await Promise.all(
-    stripeOrders.docs.map(async (order) => ({
-      id: order.id,
-      amount: order.data().amount,
-      amountShipping: order / data().amount_shipping,
-      images: order.data().images,
-      timestamp: moment(order.data().timestamp.toDate()).unix(),
-      items: (
-        await stripe.checkout.sessions.listLineItems(order.id, {
-          limit: 100,
-        })
-      ).data,
-    }))
-  );
-
   return {
-    props: {
-      orders,
-    },
+    props: { session },
   };
 }

@@ -5,6 +5,8 @@ import Currency from "react-currency-formatter";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../src/slices/cartSlice";
 import Notification from "./Notification";
+import { db } from "../firebase";
+import { useSession } from "next-auth/client";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
@@ -18,6 +20,7 @@ export default function Product({
   image,
 }) {
   const dispatch = useDispatch();
+  const [session] = useSession();
   const [showNotification, setShowNotification] = useState(false);
   const [rating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
