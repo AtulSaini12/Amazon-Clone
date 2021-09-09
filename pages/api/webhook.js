@@ -15,6 +15,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const endpointSecret = process.env.STRIPE_SIGNIN_SECRET;
 
 const completeOrder = async (session) => {
+  return;
   // return app
   //   .firestore()
   //   .collection("users")

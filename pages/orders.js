@@ -5,7 +5,7 @@ import Order from "../components/Order";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { useState } from "react";
 
-export default function orders({ session }) {
+export default function Orders({ session }) {
   const [orders, setOrders] = useState(null);
 
   if (session) {

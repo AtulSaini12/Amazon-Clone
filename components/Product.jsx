@@ -55,7 +55,13 @@ export default function Product({
         {category}
       </p>
       {image && (
-        <Image src={image} height={200} width={100} objectFit="contain" />
+        <Image
+          src={image}
+          height={200}
+          width={100}
+          alt="product"
+          objectFit="contain"
+        />
       )}
       <h4>{title}</h4>
       <div className="my-3 flex space-x-2">
