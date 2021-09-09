@@ -26,6 +26,7 @@ const Header = () => {
             width={150}
             height={40}
             objectFit="contain"
+            alt="logo"
             className="cursor-pointer "
           />
         </div>
