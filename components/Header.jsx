@@ -51,7 +51,9 @@ const Header = () => {
         >
           <div className="link" onClick={session ? signOut : signIn}>
             <p>{session ? `Hello ${session.user?.name}` : "Sign In"}</p>
-            <p className="font-extrabold md:text-sm">Accounts & Lists</p>
+            <p className="font-extrabold md:text-sm">
+              {session ? "sign out" : "Accounts & Lists"}
+            </p>
           </div>
           <div
             className="link"

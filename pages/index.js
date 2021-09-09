@@ -2,13 +2,12 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Banner from "../components/Banner";
 import ProductFeed from "../components/ProductFeed";
-import { getSession } from "next-auth/client";
+import { getSession, signIn } from "next-auth/client";
 import setUser from "../src/helpers/setUser";
-import Login from "../components/Login";
 
 export default function Home({ products, session }) {
   if (!session) {
-    return <Login />;
+    signIn();
   } else {
     setUser(session);
   }

@@ -2,7 +2,7 @@ export default function Notification({ itemName }) {
   return (
     <div
       className="flex items-center justify-end p-2
-      
+       
     "
     >
       <p

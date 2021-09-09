@@ -20,9 +20,9 @@ export default async (req, res) => {
     payment_method_types: ["card"],
     line_items: newItemFormat,
     shipping_address_collection: {
-      allowed_countries: ["US"],
+      allowed_countries: ["US", "GB"],
     },
-    shipping_rates: ["shr_1JWfkUSFzanhMoUwsGGuLbnz"],
+    shipping_rates: ["shr_1JXj3gSFzanhMoUwIS3M46KD"],
     mode: "payment",
     success_url: `${process.env.HOST}/success`,
     cancel_url: `${process.env.HOST}/checkout`,

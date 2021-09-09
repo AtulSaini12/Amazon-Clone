@@ -32,10 +32,18 @@ export default function Checkout() {
         sessionId: Date().toString(),
         totalAmount: totalPrice,
         items: cartItems,
-        amountShipping: 49,
+        amountShipping: 5,
         timeStamp: timestamp,
         orderDate: Date().toString(),
       });
+
+    const cart = {
+      cart: cartItems,
+    };
+
+    sessionStorage.cart = JSON.stringify(cart);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,

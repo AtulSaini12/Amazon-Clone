@@ -8,11 +8,13 @@ import { useState } from "react";
 export default function orders({ session }) {
   const [orders, setOrders] = useState(null);
 
-  const collecRef = query(
-    collection(db, `users/${session.user.email}/orders`),
-    orderBy("timeStamp", "desc")
-  );
-  getDocs(collecRef).then((res) => setOrders(res));
+  if (session) {
+    const collecRef = query(
+      collection(db, `users/${session.user.email}/orders`),
+      orderBy("timeStamp", "desc")
+    );
+    getDocs(collecRef).then((res) => setOrders(res));
+  }
 
   return (
     <div>
@@ -23,7 +25,11 @@ export default function orders({ session }) {
         </h1>
 
         {session ? (
-          <h2>{orders?.docs?.length} Orders</h2>
+          orders?.docs?.length ? (
+            <h2>{orders?.docs?.length} Orders</h2>
+          ) : (
+            <h2>No Orders Yet ! Try Ordering some items...</h2>
+          )
         ) : (
           <h2>Sign in to see your orders.</h2>
         )}

@@ -13,13 +13,13 @@ export default function Order({
       <div className="flex items-center space-x-10 p-5 bg-gray-100 text-sm text-gray-600">
         <div>
           <p className="font-bold text-sx">ORDER PLACED</p>
-          <p>{orderDate}</p>
+          <p>{orderDate.substring(0, 15)}</p>
         </div>
 
         <div>
           <p className="text-x font-bold">TOTAL</p>
           <p>
-            <Currency quantity={amount} currency="INR" /> - NEXT DAY DELIVERY{" "}
+            <Currency quantity={amount} currency="USD" /> - SHIPPING CHARGES{" "}
             <Currency quantity={amountShipping} currency="USD" />
           </p>
         </div>

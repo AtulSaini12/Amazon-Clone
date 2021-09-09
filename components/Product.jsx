@@ -39,6 +39,7 @@ export default function Product({
 
     dispatch(addToCart(product));
     setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 1000);
   };
 
   return (
