@@ -16,9 +16,9 @@ export default function Success() {
             <h1 className="text-3xl">Your order has been confirmed! </h1>
           </div>
           <p>
-            Thank you for shopping with us. We&apos;'ll send a confirmation
-            email when the item will be shipped, You can also check the status
-            of your order(s) from the link below.
+            Thank you for shopping with us. We&apos;ll send a confirmation email
+            when the item will be shipped, You can also check the status of your
+            order(s) from the link below.
           </p>
           <button
             className="button mt-8"
