@@ -67,7 +67,7 @@ const Header = () => {
             className="link relative flex items-center"
           >
             <span className="absolute top-0 right-0 h-4 w-4 text-center rounded-full text-black font-bold bg-yellow-400 md:right-10 ">
-              {items.length}
+              {items?.length}
             </span>
             <ShoppingCartIcon className="h-10" />
             <p className="font-extrabold mt-2 md:text-sm hidden md:inline">

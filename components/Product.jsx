@@ -24,7 +24,6 @@ export default function Product({
   );
 
   const [hasPrime] = useState(Math.random() < 0.5);
-
   const addItemToCart = () => {
     const product = {
       id,
@@ -39,6 +38,7 @@ export default function Product({
 
     dispatch(addToCart(product));
     setShowNotification(true);
+    console.log(newCart);
     setTimeout(() => setShowNotification(false), 1000);
   };
 
@@ -54,8 +54,9 @@ export default function Product({
       >
         {category}
       </p>
-      <Image src={image} height={200} width={100} objectFit="contain" />
-
+      {image && (
+        <Image src={image} height={200} width={100} objectFit="contain" />
+      )}
       <h4>{title}</h4>
       <div className="my-3 flex space-x-2">
         {Array(rating)

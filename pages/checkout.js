@@ -14,6 +14,7 @@ const stripePromise = loadStripe(process.env.stripe_public_key);
 export default function Checkout() {
   const [session] = useSession();
   const cartItems = useSelector(selectItems);
+
   const totalPrice = useSelector(selectTotal);
 
   const createCheckoutSession = async () => {
@@ -21,7 +22,7 @@ export default function Checkout() {
 
     const checkoutSession = await axios.post("/api/create-checkout-session", {
       items: cartItems,
-      email: session.user.email,
+      email: session.user?.email,
     });
 
     await db
@@ -36,14 +37,6 @@ export default function Checkout() {
         timeStamp: timestamp,
         orderDate: Date().toString(),
       });
-
-    const cart = {
-      cart: cartItems,
-    };
-
-    sessionStorage.cart = JSON.stringify(cart);
-
-    localStorage.setItem("cart", JSON.stringify(cart));
 
     const result = await stripe.redirectToCheckout({
       sessionId: checkoutSession.data.id,
@@ -70,32 +63,33 @@ export default function Checkout() {
           </div>
           <div className="flex flex-col p-5 space-y-10 bg-white ">
             <h1 className="text-3xl border-b pb-4">
-              {cartItems.length === 0
-                ? "Your cart is empty!! "
-                : "Your Cart Items : "}
+              {cartItems?.length > 0
+                ? "Your Cart Items : "
+                : "Your cart is empty!! "}
             </h1>
 
-            {cartItems.map((item, i) => (
-              <CheckoutProduct
-                key={i}
-                id={item.id}
-                title={item.title}
-                rating={item.rating}
-                price={item.price}
-                category={item.category}
-                description={item.description}
-                hasPrime={item.hasPrime}
-                image={item.image}
-              />
-            ))}
+            {cartItems?.length > 0 &&
+              cartItems?.map((item, i) => (
+                <CheckoutProduct
+                  key={i}
+                  id={item.id}
+                  title={item.title}
+                  rating={item.rating}
+                  price={item.price}
+                  category={item.category}
+                  description={item.description}
+                  hasPrime={item.hasPrime}
+                  image={item.image}
+                />
+              ))}
           </div>
         </div>
 
         <div className="flex flex-col bg-white p-10 shadow-md">
-          {cartItems.length > 0 && (
+          {cartItems?.length > 0 && (
             <>
               <h2 className="whitespace-nowrap">
-                Subtotal ({cartItems.length} items):
+                Subtotal ({cartItems?.length} items):
                 <span className="font-bold">
                   <Currency quantity={totalPrice} currency="USD" />
                 </span>
@@ -109,7 +103,11 @@ export default function Checkout() {
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                 }`}
               >
-                {!session ? "Sign In to Checkout" : "Proceed to checkout"}
+                {!session
+                  ? "Sign In to Checkout"
+                  : cartItems?.length > 0
+                  ? "Proceed to checkout"
+                  : "Your cart is empty!!"}
               </button>
             </>
           )}
