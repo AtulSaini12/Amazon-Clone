@@ -6,9 +6,7 @@ import { getSession, signIn } from "next-auth/client";
 import setUser from "../src/helpers/setUser";
 
 export default function Home({ products, session }) {
-  if (!session) {
-    signIn();
-  } else {
+  if (session) {
     setUser(session);
   }
 
